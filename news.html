@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <style>
+        .home-fab {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            width: 56px;
+            height: 56px;
+            background: #222;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            text-decoration: none;
+            font-size: 2rem;
+            z-index: 1000;
+            transition: background 0.2s;
+        }
+        .home-fab:hover {
+            background: #444;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            color: #222;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .coming-soon {
+            text-align: center;
+        }
+        .coming-soon h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .coming-soon p {
+            font-size: 1.3rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="coming-soon">
+        <h1>Coming soon...</h1>
+        <p>This page will be available soon.</p>
+    </div>
+    <a href="index.html" class="home-fab" title="Go to Home">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="10" width="20" height="10" rx="2" fill="#1976d2"/>
+            <path d="M3 10.75L12 4L21 10.75" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="white"/>
+            <path d="M5 20H19C19.5523 20 20 19.5523 20 19V11.5C20 11.2348 19.8946 10.9804 19.7071 10.7929C19.5196 10.6054 19.2652 10.5 19 10.5H5C4.73478 10.5 4.48043 10.6054 4.29289 10.7929C4.10536 10.9804 4 11.2348 4 11.5V19C4 19.5523 4.44772 20 5 20Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="#1976d2"/>
+        </svg>
+    </a>
+</body>
+</html>

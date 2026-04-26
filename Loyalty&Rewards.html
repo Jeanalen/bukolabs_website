@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loyalty and Rewards Management System</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="Overall Assets/Company Logo/Bukolabs_Logo_2.png.ico">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #fafbfc;
+      color: #222;
+    }
+
+    .main-content {
+      margin-left: 0; 
+      padding-left: 0; 
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-right: 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3.5rem;
+      margin: 90px 0 10px 0; 
+      font-weight: bold;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.25rem;
+      color: #444;
+      margin-bottom: 32px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .solutions-clinic-style {
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
+      max-width: 1200px;
+      margin: 0 auto 80px auto;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .clinic-solution-row {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: #e6f0fa;
+      border-radius: 32px;
+      box-shadow: 0 4px 32px rgba(160,32,240,0.07);
+      width: fit-content;
+      min-width: 340px;
+      max-width: 100vw;
+      margin: 0 auto 40px auto;
+      overflow: hidden;
+      padding: 32px 32px 24px 32px;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0;
+    }
+
+    .clinic-solution-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 12px;
+      height: 100%;
+      background: linear-gradient(180deg, #7c3aed 0%, #a020f0 100%);
+      border-radius: 32px 0 0 32px;
+      z-index: 1;
+      pointer-events: none;
+      display: none;
+    }
+
+    .clinic-solution-row.alt-row::before {
+      left: auto;
+      right: 0;
+      border-radius: 0 32px 32px 0;
+      display: none;
+    }
+
+    .clinic-solution-right {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 18px;
+      margin-bottom: 0;
+      padding: 0;
+      position: relative;
+      min-width: 340px;
+      min-height: 320px;
+      padding-bottom: 32px;
+    }
+
+    .clinic-solution-video {
+      width: 540px;
+      max-width: 90vw;
+      height: 340px;
+      background: #eee;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s;
+      object-fit: cover;
+      z-index: 3;
+      display: block;
+    }
+    .clinic-solution-video.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 4;
+    }
+
+    .clinic-solution-left {
+      width: 1000px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .clinic-solution-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .clinic-solution-label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #7c3aed;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+    }
+
+    .clinic-solution-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+      color: #18181b;
+      line-height: 1.15;
+    }
+
+    .clinic-solution-desc {
+      font-size: 1.18rem;
+      color: #444;
+      margin-bottom: 32px;
+      max-width: 500px;
+    }
+
+    .clinic-solution-stat-row {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .clinic-solution-stat {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #a020f0;
+      line-height: 1;
+    }
+
+    .clinic-solution-stat span {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #a020f0;
+    }
+
+    .clinic-solution-stat-desc {
+      font-size: 1.1rem;
+      color: #222;
+      max-width: 260px;
+    }
+
+    .clinic-solution-right {
+      flex: 1 1 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-width: 340px;
+      min-height: 320px;
+      padding-bottom: 32px; 
+    }
+
+    .clinic-solution-video {
+      width: 800%;
+      max-width: 950px;
+      height: 400px;
+      margin-left: 9px;
+      background: #eee;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s;
+      object-fit: cover;
+    }
+    
+    .clinic-solution-video.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 3;
+    }
+
+    .clinic-solution-row .solution-bg-geo {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 180px;
+      height: 180px;
+      opacity: 0.07;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .clinic-solution-row .solution-bg-geo2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 120px;
+      height: 120px;
+      opacity: 0.06;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .clinic-solution-row .solution-bg-wave {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 220px;
+      height: 60px;
+      transform: translate(-50%, -50%) rotate(-8deg);
+      opacity: 0.04;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .clinic-solution-row .solution-bg-buko {
+      position: absolute;
+      top: 40px;
+      right: 10px;
+      width: 140px;
+      height: 140px;
+      opacity: 0.13;
+      z-index: 1;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      transition: opacity 0.3s, width 0.3s, height 0.3s;
+    }
+
+    .clinic-solution-row.alt-row .solution-bg-geo {
+      left: 0;
+      right: auto;
+    }
+
+    .clinic-solution-row.alt-row .solution-bg-geo2 {
+      right: 0;
+      left: auto;
+    }
+
+    .clinic-solution-row.alt-row .solution-bg-buko {
+      left: 10px;
+      right: auto;
+      transform: scaleX(-1);
+    }
+
+    .view-demo-btn {
+      display: none;
+      margin: -50px auto 0 auto;
+      padding: 10px 28px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, #7c3aed 0%, #a020f0 100%);
+      border: none;
+      border-radius: 24px;
+      box-shadow: 0 2px 8px rgba(160,32,240,0.13);
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .view-demo-btn:active {
+      background: #7c3aed;
+    }
+
+    #mobile-video-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0; right: 0; bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-video-modal-backdrop {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .mobile-video-modal-content {
+      position: relative;
+      z-index: 2;
+      width: 95vw;
+      max-width: 420px;
+      background: none;
+      border-radius: 16px;
+      padding: 0 0 18px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .mobile-video-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      background: none !important;
+      border: none;
+      z-index: 3;
+      cursor: pointer;
+      padding: 0 8px;
+      line-height: 1;
+    }
+
+    .mobile-video-modal-player {
+      width: 100%;
+      max-width: 100vw;
+      max-height: 60vh;
+      border-radius: 12px;
+      object-fit: contain;
+      background: #000;
+      margin-top: 10px;
+    }
+
+    .view-demo-img {
+      display: none;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      pointer-events: none; /* Ensure image is not clickable */
+    }
+
+    .play-icon {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .play-icon::before {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-left: 12px solid white;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      margin-left: 4px;
+    }
+
+    .play-icon:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+      .view-demo-img {
+        display: block;
+        margin-top: -50px;
+      }
+      .play-icon {
+        display: flex;
+        margin-bottom: 30px;
+      }
+      .clinic-solution-right {
+        min-width: 0;
+        min-height: 180px;
+        padding-bottom: 0;
+        height: 180px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: default; /* Remove cursor pointer from container */
+      }
+      .clinic-solution-video {
+        display: none !important;
+      }
+      .main-content {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .solutions-clinic-style {
+        padding-left: 0;
+        padding-right: 0;
+        gap: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .clinic-solution-row {
+        padding: 22px 20px 22px 20px;
+        border-radius: 18px;
+        margin: 0 auto 0 -3px;
+        width: calc(100% - 12px);
+        max-width: 420px;
+        min-height: 250px;
+        box-sizing: border-box;
+      }
+      .clinic-solution-title {
+        font-size: 1.1rem;
+      }
+      .site-footer {
+        width: 100vw !important;
+        left: 0;
+        right: 0;
+        margin: 0;
+        border-radius: 0;
+        position: relative;
+        padding-left: 0;
+        padding-right: 0;
+        box-sizing: border-box;
+        background: #0e2940;
+      }
+      .section-title {
+        font-size: 3.5rem;
+        margin-top: 60px;
+      }
+      .section-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+      }
+      .footer-logo-area img {
+        max-width: 60px;
+      }
+      .solution-bg-geo,
+      .solution-bg-geo2,
+      .solution-bg-buko {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 601px) {
+      #mobile-video-modal { display: none !important; }
+    }
+
+    @media (max-width: 1000px) {
+      .clinic-solution-row, .clinic-solution-row.alt-row {
+        flex-direction: column !important;
+        align-items: stretch;
+        min-height: 0;
+        gap: 15px;
+      }
+      .clinic-solution-right {
+        min-width: 0;
+        min-height: 140px;
+      }
+      .clinic-solution-video {
+        height: 200px;
+        max-width: 100vw;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .site-footer {
+        width: 100vw !important;
+        left: 50%;
+        right: 0;
+        margin: 0;
+        border-radius: 0;
+        position: relative;
+        padding-left: 0;
+        padding-right: 0;
+        box-sizing: border-box;
+        background: #0e2940;
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="bukolabs-website" class="header-glass">
+    <nav id="menu" class="nav-glass">
+      <div id="logo" class="logo-container">
+        <a href="#">
+          <img src="Overall Assets/Company Logo/Bukolabs_Logo_Horizontal_3.png" alt="Title Logo" class="logo-img" />
+        </a>
+      </div>
+      <button id="mobile-menu-toggle" aria-label="Open navigation" class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li class="services"><a href="index.html#services">Services</a></li>
+        <li class="contact"><a href="index.html#contact">Contact Us</a></li>
+      </ul>
+      <form class="nav-search" action="#" method="get" autocomplete="off">
+        <input type="text" name="q" id="site-search-input" placeholder="Search..." aria-label="Search" autocomplete="off">
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+      <div id="search-results" class="search-results-dropdown" style="display:none;"></div>
+    </nav>
+
+    <script>
+      window.addEventListener('scroll', function() {
+        const menu = document.getElementById('menu');
+        if (window.scrollY > 40) {
+          menu.classList.add('scrolled');
+        } else {
+          menu.classList.remove('scrolled');
+        }
+      });
+    </script>
+  </header>
+
+  <div class="decorative-buko"></div>
+  <div class="decorative-leaf"></div>
+  <div class="decorative-wave"></div>
+  <div class="decorative-circle"></div>
+  
+  <main class="main-content">
+    <div class="section-title">Loyalty and Rewards Management System</div>
+    <div class="section-subtitle" style="text-align:center;font-size:1.25rem;color:#444;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto;">
+      Reward them with points on every purchase and give them something to look forward to every time they shop.
+    </div>
+    
+    <div class="solutions-clinic-style">
+      <section class="clinic-solution-row">
+        <div class="clinic-solution-left">
+          <h2 class="clinic-solution-title solution-feature-title">Cutomers earn points through purchase</h2>
+          <!-- <ul class="solution-feature-list">
+            <li>Easy booking. Enable online patient self-booking.</li>
+            <li>Simplify calendar management with drag-and-drop scheduling.</li>
+          </ul> -->
+        </div>
+        <div class="clinic-solution-right">
+          <video id="video1" class="clinic-solution-video" src="Loyalty and Rewards Management System Demo/Cutomers earn points through purchase demo.mp4" muted loop playsinline controls></video>
+          <img class="view-demo-img" src="Loyalty and Rewards Management System Demo/Cutomers earn points through purchase image.png" alt="Smart Appointment Booking & Scheduling Demo">
+          <div class="play-icon" onclick="playDemo(this, 'Loyalty and Rewards Management System Demo/Cutomers earn points through purchase demo.mp4')"></div>
+        </div>
+        <img src="Overall Assets/Elements/Circle_1.png" class="solution-bg-geo" alt="Geometric" />
+        <img src="Overall Assets/Elements/Circle_2.png" class="solution-bg-geo2" alt="Geometric 2" />
+        <img src="Overall Assets/Elements/Buko_1.png" class="solution-bg-buko" alt="Buko" />
+      </section>
+
+      <section class="clinic-solution-row">
+        <div class="clinic-solution-left">
+          <h2 class="clinic-solution-title solution-feature-title">Price redemption management</h2>
+          <!-- <ul class="solution-feature-list">
+            <li>View complete patient histories at a glance.</li>
+            <li>Add clinical notes, prescriptions, and diagnoses in just a few clicks.</li>
+            <li>Waiver management with digital signature.</li>
+          </ul> -->
+        </div>
+        <div class="clinic-solution-right">
+          <video id="video2" class="clinic-solution-video" src="Loyalty and Rewards Management System Demo/redeem demo.mp4" muted loop playsinline controls></video>
+          <img class="view-demo-img" src="Loyalty and Rewards Management System Demo/redeem image.png" alt="Effortless Patient Management Demo">
+          <div class="play-icon" onclick="playDemo(this, 'Loyalty and Rewards Management System Demo/redeem demo.mp4')"></div>
+        </div>
+        <img src="Overall Assets/Elements/Circle_1.png" class="solution-bg-geo" alt="Geometric" />
+        <img src="Overall Assets/Elements/Circle_2.png" class="solution-bg-geo2" alt="Geometric 2" />
+        <img src="Overall Assets/Elements/Buko_1.png" class="solution-bg-buko" alt="Buko" />
+      </section>
+
+      <section class="clinic-solution-row">
+        <div class="clinic-solution-left">
+          <h2 class="clinic-solution-title solution-feature-title">Vouchers and discounts</h2>
+          <!-- <ul class="solution-feature-list">
+            <li>Store, retrieve, and update records securely from any device.</li>
+            <li>Comply effortlessly with medical data privacy standards.</li>
+            <li>Attach files, lab results, and images with one click.</li>
+          </ul> -->
+        </div>
+        <div class="clinic-solution-right">
+          <video id="video3" class="clinic-solution-video" src="Loyalty and Rewards Management System Demo/Reward event.mp4" muted loop playsinline controls></video>
+          <img class="view-demo-img" src="Loyalty and Rewards Management System Demo/Reward event image.png" alt="Secure & Centralized Medical Records Demo">
+          <div class="play-icon" onclick="playDemo(this, 'Loyalty and Rewards Management System Demo/Reward event.mp4')"></div>
+        </div>
+        <img src="Overall Assets/Elements/Circle_1.png" class="solution-bg-geo" alt="Geometric" />
+        <img src="Overall Assets/Elements/Circle_2.png" class="solution-bg-geo2" alt="Geometric 2" />
+        <img src="Overall Assets/Elements/Buko_1.png" class="solution-bg-buko" alt="Buko" />
+      </section>
+
+      <section class="clinic-solution-row">
+        <div class="clinic-solution-left">
+          <h2 class="clinic-solution-title solution-feature-title">Customer management</h2>
+          <!-- <ul class="solution-feature-list">
+            <li>Instantly generate invoices and link them to visits.</li>
+            <li>Record patient visits.</li>
+            <li>Track revenue, outstanding balances.</li>
+          </ul> -->
+        </div>
+        <div class="clinic-solution-right">
+          <video id="video4" class="clinic-solution-video" src="Loyalty and Rewards Management System Demo/customer management demo.mp4" muted loop playsinline controls></video>
+          <img class="view-demo-img" src="Loyalty and Rewards Management System Demo/customer management image.png" alt="Integrated Visit & Billing Tracker Demo">
+          <div class="play-icon" onclick="playDemo(this, 'Loyalty and Rewards Management System Demo/customer management demo.mp4')"></div>
+        </div>
+        <img src="Overall Assets/Elements/Circle_1.png" class="solution-bg-geo" alt="Geometric" />
+        <img src="Overall Assets/Elements/Circle_2.png" class="solution-bg-geo2" alt="Geometric 2" />
+        <img src="Overall Assets/Elements/Buko_1.png" class="solution-bg-buko" alt="Buko" />
+      </section>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-logo-area">
+        <img src="Overall Assets/Company Logo/Bukolabs_Logo_Vertical_4.png" alt="Bukolabs.io Logo" class="footer-logo" />
+      </div>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <p>We believe in infinite possibilities. We believe in solving problems through digitalization.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/bukolabsph" target="_blank" aria-label="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+            <a href="https://instagram.com/bukolabs" target="_blank" aria-label="Instagram">
+              <i class="fa fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h3>Services</h3>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Why Us</a></li>
+            <li><a href="index.html#services">Our Services</a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h3>Contact</h3>
+          <ul>
+            <li>+639171225214</li>
+            <li><a href="mailto:info@bukolabs.io">info@bukolabs.io</a></li>
+            <li>G/F Estrella Building, Poblacion III,<br>Tagbilaran City, Bohol, Philippines</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        Copyright © 2024 Bukolabs.io – All Rights Reserved.
+      </div>
+    </footer>
+
+    <script>
+      function playDemo(element, src) {
+        var container = element.closest('.clinic-solution-right');
+        var video = container.querySelector('.clinic-solution-video');
+        // On mobile, show overlay modal with video
+        if (window.innerWidth <= 600) {
+          showMobileVideoModal(src);
+          return;
+        }
+        if (video) {
+          video.style.display = 'block';
+          video.classList.add('active');
+          video.play().catch(error => {
+            console.log('Desktop playback failed:', error);
+          });
+          video.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+      }
+
+      function showMobileVideoModal(src) {
+        let modal = document.getElementById('mobile-video-modal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'mobile-video-modal';
+          modal.innerHTML = `
+            <div class="mobile-video-modal-backdrop"></div>
+            <div class="mobile-video-modal-content">
+              <button class="mobile-video-modal-close" aria-label="Close video">×</button>
+              <video class="mobile-video-modal-player" src="" controls autoplay playsinline style="width:100%;max-width:100vw;max-height:60vh;display:block;background:#000;"></video>
+            </div>
+          `;
+          document.body.appendChild(modal);
+          modal.querySelector('.mobile-video-modal-close').onclick = closeMobileVideoModal;
+          modal.querySelector('.mobile-video-modal-backdrop').onclick = closeMobileVideoModal;
+        }
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        var player = modal.querySelector('.mobile-video-modal-player');
+        player.src = src;
+        player.currentTime = 0;
+        player.setAttribute('autoplay', '');
+        player.play().catch(error => {
+          console.log('Modal autoplay failed:', error);
+        });
+      }
+
+      function closeMobileVideoModal() {
+        let modal = document.getElementById('mobile-video-modal');
+        if (modal) {
+          var player = modal.querySelector('.mobile-video-modal-player');
+          player.pause();
+          player.src = '';
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      }
+
+      function isSectionInView(section) {
+        const rect = section.getBoundingClientRect();
+        return rect.top < window.innerHeight * 0.5 && rect.bottom > window.innerHeight * 0.3;
+      }
+
+      function updateSlackVideo() {
+        if (window.innerWidth <= 600) return; // Skip on mobile
+        const sections = document.querySelectorAll('.clinic-solution-row');
+        let found = false;
+        sections.forEach((section) => {
+          const video = section.querySelector('.clinic-solution-video');
+          if (!found && isSectionInView(section)) {
+            video.classList.add('active');
+            video.play().catch(error => {
+              console.log('Scroll-based playback failed:', error);
+            });
+            found = true;
+          } else {
+            video.classList.remove('active');
+            video.pause();
+            video.currentTime = 0;
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateSlackVideo);
+      window.addEventListener('resize', updateSlackVideo);
+      document.addEventListener('DOMContentLoaded', updateSlackVideo);
+
+      document.addEventListener("DOMContentLoaded", function() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuToggle && navLinks) {
+          mobileMenuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('open');
+            mobileMenuToggle.classList.toggle('open');
+            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : 'auto';
+          });
+          
+          const navLinkItems = navLinks.querySelectorAll('a');
+          navLinkItems.forEach(link => {
+            link.addEventListener('click', function() {
+              navLinks.classList.remove('open');
+              mobileMenuToggle.classList.remove('open');
+              document.body.style.overflow = 'auto';
+            });
+          });
+          
+          document.addEventListener('click', function(event) {
+            const isClickInsideNav = navLinks.contains(event.target);
+            const isClickOnToggle = mobileMenuToggle.contains(event.target);
+            if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('open')) {
+              navLinks.classList.remove('open');
+              mobileMenuToggle.classList.remove('open');
+              document.body.style.overflow = 'auto';
+            }
+          });
+          
+          window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+              navLinks.classList.remove('open');
+              mobileMenuToggle.classList.remove('open');
+              document.body.style.overflow = 'auto';
+            }
+          });
+        }
+        
+        let startX = 0;
+        let endX = 0;
+        
+        document.addEventListener('touchstart', function(event) {
+          startX = event.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', function(event) {
+          endX = event.changedTouches[0].screenX;
+          handleSwipe();
+        });
+        
+        function handleSwipe() {
+          const swipeThreshold = 50;
+          const swipeDistance = endX - startX;
+          
+          if (swipeDistance > swipeThreshold && startX < 50 && window.innerWidth <= 768) {
+            if (!navLinks.classList.contains('open')) {
+              navLinks.classList.add('open');
+              mobileMenuToggle.classList.add('open');
+              document.body.style.overflow = 'hidden';
+            }
+          }
+          
+          if (swipeDistance < -swipeThreshold && navLinks.classList.contains('open')) {
+            navLinks.classList.remove('open');
+            mobileMenuToggle.classList.remove('open');
+            document.body.style.overflow = 'auto';
+          }
+        }
+        
+        let ticking = false;
+        
+        function updateScrollElements() {
+          ticking = false;
+        }
+        
+        function requestScrollUpdate() {
+          if (!ticking) {
+            requestAnimationFrame(updateScrollElements);
+            ticking = true;
+          }
+        }
+        
+        window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+        document.body.classList.add('loaded');
+      });
+
+      document.addEventListener('click', function(e) {
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple-click';
+        ripple.style.left = `${e.clientX}px`;
+        ripple.style.top = `${e.clientY}px`;
+        document.body.appendChild(ripple);
+        ripple.addEventListener('animationend', () => {
+          ripple.remove();
+        });
+      });
+    </script>
+  </main>
+</body>
+</html>

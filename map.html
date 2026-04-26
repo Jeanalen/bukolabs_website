@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bukolabs Location Map</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .map-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f4f4f4;
+            overflow: hidden;
+        }
+        
+        iframe {
+            border: 0;
+            width: 90vw;
+            height: 80vh;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            margin-top: 50px
+        }
+    </style>
+</head>
+<body>
+    <header id="bukolabs-website" class="header-glass">
+        <nav id="menu" class="nav-glass">
+            <div id="logo" class="logo-container">
+                <a href="#">
+                <img src="Overall Assets/Company Logo/Bukolabs_Logo_Horizontal_3.png" alt="Title Logo" class="logo-img" />
+                </a>
+            </div>
+            <button id="mobile-menu-toggle" aria-label="Open navigation" class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li class="services"><a href="index.html#services">Services</a></li>
+                <li class="contact"><a href="index.html#contact">Contact Us</a></li>
+            </ul>
+            <form class="nav-search" action="#" method="get" autocomplete="off">
+                <input type="text" name="q" id="site-search-input" placeholder="Search..." aria-label="Search" autocomplete="off">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+            <div id="search-results" class="search-results-dropdown" style="display:none;"></div>
+        </nav>
+
+        <script>
+            window.addEventListener('scroll', function() {
+                const menu = document.getElementById('menu');
+                if (window.scrollY > 40) {
+                    menu.classList.add('scrolled');
+                } else {
+                    menu.classList.remove('scrolled');
+                }
+            });
+        </script>
+    </header>
+
+    <div class="map-container">
+        <iframe
+            src="https://www.google.com/maps?q=Bukolabs+Software+Development+Services,+F+Rocha+St,+Tagbilaran+City,+Bohol&output=embed"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+
+    <script>
+        // Simple Site Search Functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchForm = document.querySelector('.nav-search');
+            const searchInput = document.getElementById('site-search-input');
+            let resultsBox = document.getElementById('search-results');
+            if (resultsBox && searchForm) {
+                // Place resultsBox absolutely below the search form
+                resultsBox.style.position = 'absolute';
+                resultsBox.style.top = (searchForm.offsetTop + searchForm.offsetHeight + 4) + 'px';
+                resultsBox.style.left = searchForm.offsetLeft + 'px';
+                resultsBox.style.width = searchForm.offsetWidth + 'px';
+                resultsBox.style.zIndex = '2000';
+                resultsBox.style.background = '#fff';
+                resultsBox.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+                resultsBox.style.borderRadius = '6px';
+                resultsBox.style.padding = '0.5em 0';
+                resultsBox.style.maxHeight = '300px';
+                resultsBox.style.overflowY = 'auto';
+            }
+            // Collect searchable content from key sections
+            const searchableSections = [
+                {
+                    title: 'Our Services',
+                    selector: '#services .service-card',
+                    getText: card => card.querySelector('h3')?.textContent + ' ' + card.querySelector('p')?.textContent,
+                    getLink: card => card.querySelector('a.learn-more')?.getAttribute('href') || '#'
+                },
+                {
+                    title: 'About Bukolabs',
+                    selector: '#about .about-text',
+                    getText: el => el.textContent,
+                    getLink: () => '#about'
+                },
+                {
+                    title: 'Contact',
+                    selector: '#contact .contact-details',
+                    getText: el => el.textContent,
+                    getLink: () => '#contact'
+                },
+                {
+                    title: 'Footer',
+                    selector: 'footer.site-footer',
+                    getText: el => el.textContent,
+                    getLink: () => 'javascript:void(0)'
+                }
+            ];
+
+            function searchSite(query) {
+                const results = [];
+                if (!query.trim()) return results;
+                const q = query.trim().toLowerCase();
+                searchableSections.forEach(section => {
+                    document.querySelectorAll(section.selector).forEach(el => {
+                        const text = section.getText(el)?.toLowerCase() || '';
+                        if (text.includes(q)) {
+                            results.push({
+                                section: section.title,
+                                text: section.getText(el),
+                                link: section.getLink(el)
+                            });
+                        }
+                    });
+                });
+                return results;
+            }
+
+            function showResults(results, query) {
+                if (!resultsBox) return;
+                if (!query.trim()) {
+                    resultsBox.style.display = 'none';
+                    resultsBox.innerHTML = '';
+                    return;
+                }
+                if (results.length === 0) {
+                    resultsBox.innerHTML = `<div class="search-no-results" style="padding:0.5em 1em; color:#888;">No results found.</div>`;
+                } else {
+                    resultsBox.innerHTML = results.map(r =>
+                        `<div class="search-result-item" style="padding:0.5em 1em; border-bottom:1px solid #eee;">
+                            <a href="${r.link}" style="text-decoration:none; color:#222; display:block;">
+                                <strong>${r.section}:</strong> ${r.text.replace(new RegExp(query, 'ig'), m => `<mark style='background: #ffe066; color: #222;'>${m}</mark>`)}</a>
+                        </div>`
+                    ).join('');
+                }
+                resultsBox.style.display = 'block';
+
+                // Recalculate position in case of resize
+                const rect = searchForm.getBoundingClientRect();
+                resultsBox.style.position = 'absolute';
+                resultsBox.style.top = (searchForm.offsetTop + searchForm.offsetHeight + 4) + 'px';
+                resultsBox.style.left = searchForm.offsetLeft + 'px';
+                resultsBox.style.width = searchForm.offsetWidth + 'px';
+                resultsBox.style.zIndex = '2000';
+            }
+
+            // Handle form submit
+            if (searchForm && searchInput) {
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const query = searchInput.value;
+                    const results = searchSite(query);
+                    showResults(results, query);
+                });
+                // Live search as you type
+                searchInput.addEventListener('input', function() {
+                    const query = searchInput.value;
+                    const results = searchSite(query);
+                    showResults(results, query);
+                });
+                // Hide results when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!searchForm.contains(e.target) && !resultsBox.contains(e.target)) {
+                        resultsBox.style.display = 'none';
+                    }
+                });
+                // Reposition results box on window resize
+                window.addEventListener('resize', function() {
+                    if (resultsBox.style.display === 'block') {
+                        resultsBox.style.top = (searchForm.offsetTop + searchForm.offsetHeight + 4) + 'px';
+                        resultsBox.style.left = searchForm.offsetLeft + 'px';
+                        resultsBox.style.width = searchForm.offsetWidth + 'px';
+                    }
+                });
+            }
+        });
+
+        // --- End Site Search ---
+        document.addEventListener("DOMContentLoaded", function() {
+            function revealFeatures() {
+                const cards = document.querySelectorAll('.feature-card-horizontal');
+                const trigger = window.innerHeight * 0.85;
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                        if (rect.top < trigger && rect.bottom > 80) {
+                            card.classList.add('visible');
+                        } else {
+                            card.classList.remove('visible');
+                        }
+                });
+            }
+            window.addEventListener('scroll', revealFeatures);
+            revealFeatures();
+        });
+
+        // Services Cards Reveal
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.service-card');
+                cards.forEach((card, i) => {
+                // Alternate left/right
+                    if (i % 2 === 0) card.classList.add('from-left');
+                });
+
+                function revealCards() {
+                    const trigger = window.innerHeight * 0.85;
+                    cards.forEach(card => {
+                        const rect = card.getBoundingClientRect();
+                        if (rect.top < trigger && rect.bottom > 80) {
+                            card.classList.add('visible');
+                        } else {
+                            card.classList.remove('visible');
+                        }
+                    });
+                }
+                window.addEventListener('scroll', revealCards);
+                revealCards(); 
+        });
+
+        // Mobile menu toggle functionality
+        document.addEventListener("DOMContentLoaded", function() {      
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+        
+            if (mobileMenuToggle && navLinks) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    // Toggle the menu
+                    navLinks.classList.toggle('open');
+                    mobileMenuToggle.classList.toggle('open');
+                
+                    // Prevent body scroll when menu is open
+                    if (navLinks.classList.contains('open')) {
+                        document.body.style.overflow = 'hidden';
+                        } else {
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            
+                // Close menu when clicking on a link
+                const navLinkItems = navLinks.querySelectorAll('a');
+                navLinkItems.forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('open');
+                        mobileMenuToggle.classList.remove('open');
+                        document.body.style.overflow = 'auto';
+                    });
+                });
+            
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInsideNav = navLinks.contains(event.target);
+                    const isClickOnToggle = mobileMenuToggle.contains(event.target);
+                
+                    if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('open')) {
+                        navLinks.classList.remove('open');
+                        mobileMenuToggle.classList.remove('open');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        navLinks.classList.remove('open');
+                        mobileMenuToggle.classList.remove('open');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+        
+            // Touch swipe functionality for mobile (optional enhancement)
+            let startX = 0;
+            let endX = 0;
+        
+            document.addEventListener('touchstart', function(event) {
+                startX = event.changedTouches[0].screenX;
+            });
+        
+            document.addEventListener('touchend', function(event) {
+                endX = event.changedTouches[0].screenX;
+                handleSwipe();
+            });
+        
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const swipeDistance = endX - startX;
+            
+                // Swipe right to open menu (from left edge)
+                if (swipeDistance > swipeThreshold && startX < 50 && window.innerWidth <= 768) {
+                    if (!navLinks.classList.contains('open')) {
+                        navLinks.classList.add('open');
+                        mobileMenuToggle.classList.add('open');
+                        document.body.style.overflow = 'hidden';
+                    }
+                }
+            
+                // Swipe left to close menu
+                if (swipeDistance < -swipeThreshold && navLinks.classList.contains('open')) {
+                    navLinks.classList.remove('open');
+                    mobileMenuToggle.classList.remove('open');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        
+            // Improve scroll performance on mobile
+            let ticking = false;
+        
+            function updateScrollElements() {
+                // Your existing scroll functions here
+                // (features reveal, about reveal, etc.)
+                ticking = false;
+            }
+        
+            function requestScrollUpdate() {
+                if (!ticking) {
+                    requestAnimationFrame(updateScrollElements);
+                    ticking = true;
+                }
+            }
+        
+            // Use passive event listeners for better performance
+            window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+        
+            // Add loading class to body when page loads
+            document.body.classList.add('loaded');
+        });
+
+        // Register service worker for offline functionality (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                })
+                .catch(function(err) {
+                    console.log('ServiceWorker registration failed');
+                });
+            });
+        }
+
+        // Add to home screen prompt (optional)
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', function(event) {
+            event.preventDefault();
+            deferredPrompt = event;
+        
+            // Show install button or prompt
+            const installButton = document.getElementById('install-button');
+            if (installButton) {
+                installButton.style.display = 'block';
+                installButton.addEventListener('click', function() {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(function(choiceResult) {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        }
+                        deferredPrompt = null;
+                        installButton.style.display = 'none';
+                    });
+                });
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const answer = num1 + num2;
+            document.getElementById('math-question').textContent = `${num1} + ${num2}`;
+            document.getElementById('math-captcha').dataset.answer = answer;
+
+            const form = document.querySelector('form.wrapper');
+            if(form) {
+                form.addEventListener('submit', function(e) {
+                    const userAnswer = document.getElementById('math-captcha').value;
+                    const correctAnswer = document.getElementById('math-captcha').dataset.answer;
+                    if (parseInt(userAnswer, 10) !== parseInt(correctAnswer, 10)) {
+                        e.preventDefault();
+                        document.getElementById('mathCaptchaError').textContent = "Incorrect answer. Please try again.";
+                    } else {
+                        document.getElementById('mathCaptchaError').textContent = "";
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

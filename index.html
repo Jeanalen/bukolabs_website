@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Bukolabs</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="Overall Assets/Company Logo/Bukolabs_Logo_2.png.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
+
+</head>
+
+<body>
+    <header id="bukolabs-website" class="header-glass">
+        <nav id="menu" class="nav-glass">
+            <div id="logo" class="logo-container">
+                <a href="#">
+                    <img src="Overall Assets/Company Logo/Bukolabs_Logo_Horizontal_3.png" alt="Title Logo" class="logo-img" />
+                </a>
+            </div>
+            <button id="mobile-menu-toggle" aria-label="Open navigation" class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-links">
+                <li style="margin-right:28px;"><a href="#">Home</a></li>
+                <li class="dropdown" id="servicesDropdownContainer" style="position:relative; margin-right:28px;">
+                    <button class="dropbtn" aria-haspopup="true" aria-expanded="false" id="servicesDropdownBtn" style="background:transparent;border:none;color:#222;font:inherit;padding:0 0.7em;cursor:pointer;display:flex;align-items:center;gap:0.5em;margin-top:2px;box-shadow:none;outline:none;">
+                        <span style="display:inline-block;vertical-align:middle;line-height:1.5;">Services</span> <i class="fa fa-caret-down" style="vertical-align:middle;"></i>
+                    </button>
+                    <div class="dropdown-content" id="servicesDropdownMenu" style="display:none; position:absolute; background: #fff;; min-width:200px; box-shadow:0 2px 8px rgba(0,0,0,0.15); z-index:1000; padding:11px;">
+                        <a href="#" style="display:block; padding:10px 18px; border-radius:6px; margin-bottom:6px; transition:background 0.2s;">Customized Software Development</a>
+                        <a href="Loyalty&Rewards.html" style="display:block; padding:10px 18px; border-radius:6px; margin-bottom:6px; transition:background 0.2s;">Loyalty and Rewards Management System</a>
+                        <a href="Human Resource Management System.html" style="display:block; padding:10px 18px; border-radius:6px; margin-bottom:6px; transition:background 0.2s;">Human Resource Management System</a>
+                        <a href="#" style="display:block; padding:10px 18px; border-radius:6px; margin-bottom:6px; transition:background 0.2s;">Business Consultation</a>
+                        <a href="#" style="display:block; padding:10px 18px; border-radius:6px; margin-bottom:6px; transition:background 0.2s;">Seminars and Workshops</a>
+                        <a href="clinicsolution.html" style="display:block; padding:10px 18px; border-radius:6px; margin-bottom:6px; transition:background 0.2s;">Clinic Management System</a>
+                    </div>
+                </li>
+                <li style="margin-right:28px;"><a href="#about">About</a></li>
+                <li class="contact" style="margin-right:28px;"><a href="#contact">Contact Us</a></li>
+                <li class="dropdown" id="moreDropdownContainer" style="position:relative; margin-right:0;">
+                    <button class="dropbtn" aria-haspopup="true" aria-expanded="false" id="moreDropdownBtn" style="background:transparent;border:none;color:#222;font:inherit;padding:0 0.7em;cursor:pointer;display:flex;align-items:center;gap:0.5em;margin-top:2px;box-shadow:none;outline:none;">
+                        <span style="display:inline-block;vertical-align:middle;line-height:1.5;">More</span> <i class="fa fa-caret-down" style="vertical-align:middle;"></i>
+                    </button>
+                    <div class="dropdown-content" id="moreDropdownMenu" style="display:none; position:absolute; background:#fff; min-width:160px; box-shadow:0 2px 8px rgba(0,0,0,0.15); z-index:1000; padding:11px;">
+                        <a href="careers.html" style="display:block; padding:10px 18px; border-radius:6px; margin-bottom:6px; transition:background 0.2s;">Careers <br></a>
+                        <a href="news.html" style="display:block; padding:10px 18px; border-radius:6px; margin-bottom:6px; transition:background 0.2s;">News</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="nav-search" action="#" method="get" autocomplete="off">
+                <input type="text" name="q" id="site-search-input" placeholder="Search..." aria-label="Search" autocomplete="off">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+            <div id="search-results" class="search-results-dropdown" style="display:none;"></div>   
+        </nav>
+
+
+
+    <script>
+        // Dropdown toggle for Services
+        document.addEventListener('DOMContentLoaded', function() {
+            var servicesBtn = document.getElementById('servicesDropdownBtn');
+            var servicesMenu = document.getElementById('servicesDropdownMenu');
+            var servicesContainer = document.getElementById('servicesDropdownContainer');
+            if (servicesBtn && servicesMenu && servicesContainer) {
+                servicesMenu.style.display = 'none';
+                servicesBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var isOpen = servicesMenu.style.display === 'block';
+                    servicesMenu.style.display = isOpen ? 'none' : 'block';
+                    servicesBtn.setAttribute('aria-expanded', !isOpen);
+                });
+                document.addEventListener('click', function(e) {
+                    if (!servicesBtn.contains(e.target) && !servicesMenu.contains(e.target)) {
+                        servicesMenu.style.display = 'none';
+                        servicesBtn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                function repositionDropdown() {
+                    if (servicesMenu.style.display === 'block') {
+                        var rect = servicesBtn.getBoundingClientRect();
+                        var scrollTop = window.scrollY || window.pageYOffset;
+                        servicesMenu.style.left = rect.left + 'px';
+                        // Place the dropdown right below the nav bar (not below the button)
+                        var nav = document.getElementById('menu');
+                        if (nav) {
+                            var navRect = nav.getBoundingClientRect();
+                            servicesMenu.style.top = (navRect.bottom + scrollTop) + 'px';
+                        } else {
+                            servicesMenu.style.top = (rect.top + scrollTop) + 'px';
+                        }
+                        servicesMenu.style.minWidth = rect.width + 'px';
+                    }
+                }
+                window.addEventListener('scroll', repositionDropdown);
+                window.addEventListener('resize', repositionDropdown);
+            }
+        });
+
+        // Dropdown toggle for More (Careers, News)
+        document.addEventListener('DOMContentLoaded', function() {
+            var moreBtn = document.getElementById('moreDropdownBtn');
+            var moreMenu = document.getElementById('moreDropdownMenu');
+            var moreContainer = document.getElementById('moreDropdownContainer');
+            if (moreBtn && moreMenu && moreContainer) {
+                moreMenu.style.display = 'none';
+                moreBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var isOpen = moreMenu.style.display === 'block';
+                    moreMenu.style.display = isOpen ? 'none' : 'block';
+                    moreBtn.setAttribute('aria-expanded', !isOpen);
+                });
+                document.addEventListener('click', function(e) {
+                    if (!moreBtn.contains(e.target) && !moreMenu.contains(e.target)) {
+                        moreMenu.style.display = 'none';
+                        moreBtn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                function repositionDropdown() {
+                    if (moreMenu.style.display === 'block') {
+                        var rect = moreBtn.getBoundingClientRect();
+                        var scrollTop = window.scrollY || window.pageYOffset;
+                        moreMenu.style.left = rect.left + 'px';
+                        // Place the dropdown right below the nav bar (not below the button)
+                        var nav = document.getElementById('menu');
+                        if (nav) {
+                            var navRect = nav.getBoundingClientRect();
+                            moreMenu.style.top = (navRect.bottom + scrollTop) + 'px';
+                        } else {
+                            moreMenu.style.top = (rect.top + scrollTop) + 'px';
+                        }
+                        moreMenu.style.minWidth = rect.width + 'px';
+                    }
+                }
+                window.addEventListener('scroll', repositionDropdown);
+                window.addEventListener('resize', repositionDropdown);
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            const menu = document.getElementById('menu');
+            if (window.scrollY > 40) {
+                menu.classList.add('scrolled');
+            } else {
+                menu.classList.remove('scrolled');
+            }
+        });
+    </script>
+    </header>
+
+    <section id="compintro">
+        <div id="landingPage">
+            <video autoplay muted loop playsinline class="hero-bg-video">
+            <source src="Bukolabs Background Video Final.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+            <div class="hero-text-section">
+                <p>
+                    We develop applications and<br>
+                    software solutions that truly solve<br>
+                    real business challenges.
+                </p>
+                <p class="subtext">
+                    We create custom digital software solutions tailored<br>
+                    to your business needs.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-merged-bg">
+        <section id="features" class="features-horizontal">
+            <div class="features-title-area">
+                <h2 class="features-title">Why Choose Bukolabs?</h2>
+                <p class="features-subtitle">Our approach is what sets us apart.</p>
+            </div>
+            <div class="features-row">
+                <div class="feature-card-horizontal">
+                    <div class="feature-icon-horizontal">
+                        <img src="Overall Assets/Features Icon/icon_one.png" alt="We Listen" />
+                    </div>
+                    <h3>We Listen & Understand</h3>
+                    <p>We immerse ourselves in your business to deeply understand your challenges and goals.</p>
+                </div>
+                <div class="feature-card-horizontal">
+                    <div class="feature-icon-horizontal">
+                        <img src="Overall Assets/Features Icon/icon_two.png" alt="Cutting-edge" />
+                    </div>
+                    <h3>Cutting-edge Technology</h3>
+                    <p>We leverage the latest technology and proven methodologies for every project.</p>
+                </div>
+                <div class="feature-card-horizontal">
+                    <div class="feature-icon-horizontal">
+                        <img src="Overall Assets/Features Icon/icon_three.png" alt="Compliance" />
+                    </div>
+                    <h3>Compliance & Security</h3>
+                    <p>Your data and operations are protected by our strict compliance and security standards.</p>
+                </div>
+            </div>
+        </section>      
+
+        <section id="services" class="features-horizontal">
+            <h2 class="services-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <img src="Overall Assets/Services Logo/WS_Logo_BG2.png" alt="Custom Software Icon" class="service-icon" />
+                    <h3>Customized Software Development</h3>
+                    <p>Building software from scratch. The way you want it. Doing this addresses your problem elegantly.</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+                <div class="service-card">
+                    <img src="Overall Assets/Services Logo/RL_Logo_BG2.png" alt="Custom Software Icon" class="service-icon" />
+                    <h3>Loyalty and Rewards Management System</h3>
+                    <p>Elevate Customer Engagement: Unlock Success with Our Rewards and Loyalty System!</p>
+                    <a href="Loyalty&Rewards.html" class="learn-more">Learn More</a>
+                </div>
+                <div class="service-card">
+                    <img src="Overall Assets/Services Logo/HR_Logo_BG2.png" alt="Custom Software Icon" class="service-icon" />
+                    <h3>Human Resource Management System</h3>
+                    <p>Manage employees automatically with ease. This includes payroll, daily time records, and more!</p>
+                    <a href="Human Resource Management System.html" class="learn-more">Learn More</a>
+                </div>
+                <div class="service-card">
+                    <img src="Overall Assets/Services Logo/organic-farming-icon-01-1.png" alt="Custom Software Icon" class="service-icon" />
+                    <h3>Business Consultation</h3>
+                    <p>Let us take a look at your business and see how we can improve it through our technology.</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+                <div class="service-card">
+                    <img src="Overall Assets/Services Logo/organic-farming-icon-03-1.png" alt="Custom Software Icon" class="service-icon" />
+                    <h3>Seminars and Workshops</h3>
+                    <p>Boost Your Digital Prowess: Elevate Your Business and Career with Bukolabs.io’s Cybersecurity, Project Management, and Beyond!</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+                <div class="service-card">
+                    <img src="Overall Assets/Services Logo/Clinic_Logo BG2.png" alt="Custom Software Icon" class="service-icon" />
+                    <h3>Clinic Management System</h3>
+                    <p>Manage patient bookings, information and important information with ease!</p>
+                    <a href="clinicsolution.html" class="learn-more">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </section>
+    
+    <section id="about" class="about-bukolabs">
+        <div class="about-container">
+            <div class="about-shape1"></div>
+            <div class="about-shape2"></div>
+            <div class="about-shape3"></div>
+                <div class="about-image">
+                    <img src="Overall Assets/Company Logo/Bukolabs_Logo_2.png" alt="Bukolabs Logo" />
+                </div>
+                <div class="about-text">
+                    <h2>Our Story</h2>
+                    <h3>What is Bukolabs?</h3>
+                    <p>
+                        Bukolabs stands out as a software development company with a distinctive approach. Unlike others, we prioritize problem-oriented solutions, ensuring that every issue is comprehensively addressed by our products.
+                    </p>
+                    <p>
+                        Our name, <strong>Bukolabs</strong> — also known as <em>Buko Laboratories</em> — draws inspiration from the coconut, widely regarded as the “Tree of Life” in many cultures. Just as every part of the coconut serves a purpose, we believe our services offer holistic solutions to our clients’ needs. This philosophy is reflected in our product names, inspired by various coconut products, underscoring our commitment to uniqueness and utility.
+                    </p>
+                </div>        
+    </section>
+
+    <section class="integration-section">
+        <h2>Seamlessly Connects With</h2>
+        <div class="scroll-row">
+            <div class="integration-icons-row">
+                <div class="icon"><a href="https://travelinsideout.ph/" target="_blank"><img src="Overall Assets/Clients Logo/712-Inside-Out.png" alt=""></a></div>
+                <div class="icon"><a href="https://cgsotagbilaran.com" target="_blank"><img src="Overall Assets/Clients Logo/7S-Traders-Inc.jpg" alt=""></a></div>
+                <div class="icon"><a href="https://cgsotagbilaran.com/" target="_blank"><img src="Overall Assets/Clients Logo/General-Service-Office-Tagbilaran.png" alt=""></a></div>
+                <div class="icon"><a href="https://www.facebook.com/happyfurfriends.bhl" target="_blank"><img src="Overall Assets/Clients Logo/Happy-Fur-Friends.png" alt=""></a></div>
+                <div class="icon"><a href="https://happytrails.ph/" target="_blank"><img src="Overall Assets/Clients Logo/Happy-Trails-Ph.png" alt=""></a></div>
+                <div class="icon"><a href="https://www.facebook.com/happyvillekidsplaycenter/" target="_blank"><img src="Overall Assets/Clients Logo/Happyville-Kids-Play-Center.png" alt=""></a></div>
+                <div class="icon"><a href="https://www.facebook.com/LaBelleMedicalAesthetics" target="_blank"><img src="Overall Assets/Clients Logo/La-Belle-Medical-Aesthetic.png" alt=""></a></div>
+                <div class="icon"><a href="https://www.facebook.com/leposhnailhouse/" target="_blank"><img src="Overall Assets/Clients Logo/Le-Posh-Nail-House.jpg" alt=""></a></div>
+                <div class="icon"><a href="https://www.facebook.com/otgcoffeealturasmall" target="_blank"><img src="Overall Assets/Clients Logo/otg-coffee.jpg" alt=""></a></div>
+                <div class="icon"><a href="https://pob2tagbilaran.com/" target="_blank"><img src="Overall Assets/Clients Logo/Poblacion-2-Tagbilaran-City.jpg" alt=""></a></div>
+                <div class="icon"><a href="https://www.facebook.com/PushNDripBeautyLounge/" target="_blank"><img src="Overall Assets/Clients Logo/Push-and-Drip.jpg" alt=""></a></div>
+                <div class="icon"><a href="https://www.facebook.com/YOUTHLEADHUB/" target="_blank"><img src="Overall Assets/Clients Logo/Youthlead-Philippines.png" alt=""></a></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <form class="wrapper" action="verify.php" method="POST">
+            <div class="left-side">
+                <div class="contact-details">
+                    <h2>Contact Us</h2>
+                    <p>Let us know your needs and we will provide you with feedback!</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/bukolabsph" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <a href="https://instagram.com/bukolabs" target="_blank"><i class="fa fa-instagram"></i></a>
+                    </div>
+                    <div class="contact-info">
+                        <p><strong>Mobile:</strong> +63 917 1225 214</p>
+                        <p><strong>Email:</strong> <a href="mailto:info@bukolabs.io">info@bukolabs.io</a></p>
+                        <p><strong>Office Address:</strong> G/F Estrella Building, F. Rocha Street, Poblacion III, Tagbilaran City, Bohol, Philippines</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-side">
+                <div id="successPopup" class="success-popup">✅ Message sent!</div>
+                <h2>Get in Touch</h2>
+                <p>We'll get back to you as soon as possible.</p>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" name="name" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" name="phone" id="phone" placeholder="+63 900 000 0000" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" required></textarea>
+                </div>
+                <form action="verify.php" method="POST">
+                    <div class="cf-turnstile"
+                        data-sitekey="0x4AAAAAABlNKWWbj8fwsMxJ">
+                    </div>
+                    <br>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </form>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-logo-area">
+            <img src="Overall Assets/Company Logo/Bukolabs_Logo_Vertical_4.png" alt="Bukolabs.io Logo" class="footer-logo" />
+        </div>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <p>We believe in infinite possibilities. We believe in solving problems through digitalization.</p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/bukolabsph" target="_blank" aria-label="Facebook">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="https://instagram.com/bukolabs" target="_blank" aria-label="Instagram">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-links">
+                 <h3>Services</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Why Us</a></li>
+                    <li><a href="#services">Our Services</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact</h3>
+                <ul>
+                    <li>+639171225214</li>
+                    <li><a href="mailto:info@bukolabs.io">info@bukolabs.io</a></li>
+                    <li>G/F Estrella Building, Poblacion III,<br>Tagbilaran City, Bohol, Philippines</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Copyright © 2024 Bukolabs.io – All Rights Reserved.
+        </div>
+    </footer>
+
+    <aside class="sidebar-map">
+        <a href="map.html" class="sidebar-map-link" title="View Map">
+            <i class="fa fa-map-marker"></i>
+        </a>
+    </aside>
+
+    <!-- <div id="hiring-notification">
+    <button id="close-hiring-notification" aria-label="Close notification">&times;</button>
+    <div class="hiring-content">
+        📢 <strong>We're hiring!</strong> Join the Bukolabs team.
+    </div> -->
+</div>
+
+    <script>
+        // Toggle mobile nav
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('show');
+        });
+
+        // Change nav on scroll
+        window.addEventListener('scroll', function() {
+            const menu = document.getElementById('menu');
+            if (window.scrollY > 40) {
+                menu.classList.add('scrolled');
+            } else {
+                menu.classList.remove('scrolled');
+            }
+        });
+        // Simple Site Search Functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchForm = document.querySelector('.nav-search');
+            const searchInput = document.getElementById('site-search-input');
+            let resultsBox = document.getElementById('search-results');
+            if (resultsBox && searchForm) {
+                // Place resultsBox absolutely below the search form
+                resultsBox.style.position = 'absolute';
+                resultsBox.style.top = (searchForm.offsetTop + searchForm.offsetHeight + 4) + 'px';
+                resultsBox.style.left = searchForm.offsetLeft + 'px';
+                resultsBox.style.width = searchForm.offsetWidth + 'px';
+                resultsBox.style.zIndex = '2000';
+                resultsBox.style.background = '#fff';
+                resultsBox.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+                resultsBox.style.borderRadius = '6px';
+                resultsBox.style.padding = '0.5em 0';
+                resultsBox.style.maxHeight = '300px';
+                resultsBox.style.overflowY = 'auto';
+            }
+            // Collect searchable content from key sections
+            const searchableSections = [
+                {
+                    title: 'Our Services',
+                    selector: '#services .service-card',
+                    getText: card => card.querySelector('h3')?.textContent + ' ' + card.querySelector('p')?.textContent,
+                    getLink: card => card.querySelector('a.learn-more')?.getAttribute('href') || '#'
+                },
+                {
+                    title: 'About Bukolabs',
+                    selector: '#about .about-text',
+                    getText: el => el.textContent,
+                    getLink: () => '#about'
+                },
+                {
+                    title: 'Contact',
+                    selector: '#contact .contact-details',
+                    getText: el => el.textContent,
+                    getLink: () => '#contact'
+                },
+                {
+                    title: 'Footer',
+                    selector: 'footer.site-footer',
+                    getText: el => el.textContent,
+                    getLink: () => 'javascript:void(0)'
+                }
+            ];
+
+            function searchSite(query) {
+                const results = [];
+                if (!query.trim()) return results;
+                const q = query.trim().toLowerCase();
+                searchableSections.forEach(section => {
+                    document.querySelectorAll(section.selector).forEach(el => {
+                        const text = section.getText(el)?.toLowerCase() || '';
+                        if (text.includes(q)) {
+                            results.push({
+                                section: section.title,
+                                text: section.getText(el),
+                                link: section.getLink(el)
+                            });
+                        }
+                    });
+                });
+                return results;
+            }
+
+            function showResults(results, query) {
+                if (!resultsBox) return;
+                if (!query.trim()) {
+                    resultsBox.style.display = 'none';
+                    resultsBox.innerHTML = '';
+                    return;
+                }
+                if (results.length === 0) {
+                    resultsBox.innerHTML = `<div class="search-no-results" style="padding:0.5em 1em; color:#888;">No results found.</div>`;
+                } else {
+                    resultsBox.innerHTML = results.map(r =>
+                        `<div class="search-result-item" style="padding:0.5em 1em; border-bottom:1px solid #eee;">
+                            <a href="${r.link}" style="text-decoration:none; color:#222; display:block;">
+                                <strong>${r.section}:</strong> ${r.text.replace(new RegExp(query, 'ig'), m => `<mark style='background: #ffe066; color: #222;'>${m}</mark>`)}</a>
+                        </div>`
+                    ).join('');
+                }
+                resultsBox.style.display = 'block';
+                // Recalculate position in case of resize
+                const rect = searchForm.getBoundingClientRect();
+                resultsBox.style.position = 'absolute';
+                resultsBox.style.top = (searchForm.offsetTop + searchForm.offsetHeight + 4) + 'px';
+                resultsBox.style.left = searchForm.offsetLeft + 'px';
+                resultsBox.style.width = searchForm.offsetWidth + 'px';
+                resultsBox.style.zIndex = '2000';
+            }
+
+            // Handle form submit
+            if (searchForm && searchInput) {
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const query = searchInput.value;
+                    const results = searchSite(query);
+                    showResults(results, query);
+                });
+                // Live search as you type
+                searchInput.addEventListener('input', function() {
+                    const query = searchInput.value;
+                    const results = searchSite(query);
+                    showResults(results, query);
+                });
+                // Hide results when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!searchForm.contains(e.target) && !resultsBox.contains(e.target)) {
+                        resultsBox.style.display = 'none';
+                    }
+                });
+                // Reposition results box on window resize
+                window.addEventListener('resize', function() {
+                    if (resultsBox.style.display === 'block') {
+                        resultsBox.style.top = (searchForm.offsetTop + searchForm.offsetHeight + 4) + 'px';
+                        resultsBox.style.left = searchForm.offsetLeft + 'px';
+                        resultsBox.style.width = searchForm.offsetWidth + 'px';
+                    }
+                });
+            }
+        });
+
+        // --- End Site Search ---
+        document.addEventListener("DOMContentLoaded", function() {
+            function revealFeatures() {
+                const cards = document.querySelectorAll('.feature-card-horizontal');
+                const trigger = window.innerHeight * 0.85;
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                        if (rect.top < trigger && rect.bottom > 80) {
+                            card.classList.add('visible');
+                        } else {
+                            card.classList.remove('visible');
+                        }
+                });
+            }
+            window.addEventListener('scroll', revealFeatures);
+            revealFeatures();
+        });
+
+        // Services Cards Reveal
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.service-card');
+                cards.forEach((card, i) => {
+                // Alternate left/right
+                    if (i % 2 === 0) card.classList.add('from-left');
+                });
+
+                function revealCards() {
+                    const trigger = window.innerHeight * 0.85;
+                    cards.forEach(card => {
+                        const rect = card.getBoundingClientRect();
+                        if (rect.top < trigger && rect.bottom > 80) {
+                            card.classList.add('visible');
+                        } else {
+                            card.classList.remove('visible');
+                        }
+                    });
+                }
+                window.addEventListener('scroll', revealCards);
+                revealCards(); 
+        });
+
+        // Mobile menu toggle functionality
+        document.addEventListener("DOMContentLoaded", function() {      
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+    
+            if (mobileMenuToggle && navLinks) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    // Toggle the menu
+                    navLinks.classList.toggle('open');
+                    mobileMenuToggle.classList.toggle('open');
+            
+                    // Prevent body scroll when menu is open
+                    if (navLinks.classList.contains('open')) {
+                        document.body.style.overflow = 'hidden';
+                        } else {
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+        
+                // Close menu when clicking on a link
+                const navLinkItems = navLinks.querySelectorAll('a');
+                navLinkItems.forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('open');
+                        mobileMenuToggle.classList.remove('open');
+                        document.body.style.overflow = 'auto';
+                    });
+                });
+        
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInsideNav = navLinks.contains(event.target);
+                    const isClickOnToggle = mobileMenuToggle.contains(event.target);
+            
+                    if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('open')) {
+                        navLinks.classList.remove('open');
+                        mobileMenuToggle.classList.remove('open');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+        
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        navLinks.classList.remove('open');
+                        mobileMenuToggle.classList.remove('open');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+    
+            // Touch swipe functionality for mobile (optional enhancement)
+            let startX = 0;
+            let endX = 0;
+    
+            document.addEventListener('touchstart', function(event) {
+                startX = event.changedTouches[0].screenX;
+            });
+    
+            document.addEventListener('touchend', function(event) {
+                endX = event.changedTouches[0].screenX;
+                handleSwipe();
+            });
+    
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const swipeDistance = endX - startX;
+        
+                // Swipe right to open menu (from left edge)
+                if (swipeDistance > swipeThreshold && startX < 50 && window.innerWidth <= 768) {
+                    if (!navLinks.classList.contains('open')) {
+                        navLinks.classList.add('open');
+                        mobileMenuToggle.classList.add('open');
+                        document.body.style.overflow = 'hidden';
+                    }
+                }
+        
+                // Swipe left to close menu
+                if (swipeDistance < -swipeThreshold && navLinks.classList.contains('open')) {
+                    navLinks.classList.remove('open');
+                    mobileMenuToggle.classList.remove('open');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+    
+            // Improve scroll performance on mobile
+            let ticking = false;
+    
+            function updateScrollElements() {
+                // Your existing scroll functions here
+                // (features reveal, about reveal, etc.)
+                ticking = false;
+            }
+    
+            function requestScrollUpdate() {
+                if (!ticking) {
+                    requestAnimationFrame(updateScrollElements);
+                    ticking = true;
+                }
+            }
+    
+            // Use passive event listeners for better performance
+            window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+    
+            // Add loading class to body when page loads
+            document.body.classList.add('loaded');
+        });
+
+        // Register service worker for offline functionality (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                })
+                .catch(function(err) {
+                    console.log('ServiceWorker registration failed');
+                });
+            });
+        }
+
+        // Add to home screen prompt (optional)
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', function(event) {
+            event.preventDefault();
+            deferredPrompt = event;
+    
+            // Show install button or prompt
+            const installButton = document.getElementById('install-button');
+            if (installButton) {
+                installButton.style.display = 'block';
+                installButton.addEventListener('click', function() {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(function(choiceResult) {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        }
+                        deferredPrompt = null;
+                        installButton.style.display = 'none';
+                    });
+                });
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const answer = num1 + num2;
+            document.getElementById('math-question').textContent = `${num1} + ${num2}`;
+            document.getElementById('math-captcha').dataset.answer = answer;
+
+            const form = document.querySelector('form.wrapper');
+            if(form) {
+                form.addEventListener('submit', function(e) {
+                    const userAnswer = document.getElementById('math-captcha').value;
+                    const correctAnswer = document.getElementById('math-captcha').dataset.answer;
+                    if (parseInt(userAnswer, 10) !== parseInt(correctAnswer, 10)) {
+                        e.preventDefault();
+                        document.getElementById('mathCaptchaError').textContent = "Incorrect answer. Please try again.";
+                    } else {
+                        document.getElementById('mathCaptchaError').textContent = "";
+                    }
+                });
+            }
+        });
+
+        // Ripple on Click Only Script
+        document.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple-click';
+            ripple.style.left = `${e.clientX}px`;
+            ripple.style.top = `${e.clientY}px`;
+            document.body.appendChild(ripple);
+
+            ripple.addEventListener('animationend', () => {
+                ripple.remove();
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const bar = document.getElementById('hiring-notification');
+            const closeBtn = document.getElementById('close-hiring-notification');
+
+            if (closeBtn && bar) {
+                closeBtn.addEventListener('click', function(event) {
+                    event.stopPropagation(); // prevent triggering redirect
+                    bar.style.display = 'none';
+                });
+            }
+
+            if (bar) {
+                bar.addEventListener('click', function() {
+                    window.location.href = 'careers.html'; // change to your target page
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
